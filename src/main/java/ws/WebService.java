@@ -1,27 +1,17 @@
 package ws;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Optional;
-
 import com.ifpe.prova.entidades.Candidate;
 import com.ifpe.prova.entidades.PoliticalParty;
 import com.ifpe.prova.entidades.Repository;
 import com.ifpe.prova.entidades.Result;
 
 import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
-import jakarta.ws.rs.core.EntityPart;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.core.Response;
 
 @Path("/eleicao")

@@ -2,7 +2,6 @@ package com.ifpe.prova.entidades;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -148,28 +147,23 @@ public class Repository {
 
     public Result computeElectionResults() {
         int totalValidVotes = entourages.stream()
-                .filter(p -> p.getPartyNumber() != 99 && p.getPartyNumber() != 91) // Excluir votos brancos e nulos
+                .filter(p -> p.getPartyNumber() != 99 && p.getPartyNumber() != 91)
                 .mapToInt(PoliticalParty::getPartyVotes)
                 .sum();
 
-        // Calcular quociente eleitoral
         int electoralQuotient = (int) Math.ceil((double) totalValidVotes / 7);
 
-        // Calcular quociente partidário
         Map<Integer, Integer> partySeats = entourages.stream()
                 .filter(p -> p.getPartyNumber() != 99 && p.getPartyNumber() != 91)
                 .collect(Collectors.toMap(
                         PoliticalParty::getPartyNumber,
                         p -> p.getPartyVotes() / electoralQuotient));
 
-        // Determinar cadeiras restantes
         int distributedSeats = partySeats.values().stream().mapToInt(Integer::intValue).sum();
         int remainingSeats = 7 - distributedSeats;
 
-        // Distribuir cadeiras restantes proporcionalmente
         distributeRemainingSeats(remainingSeats, partySeats);
 
-        // Ordenar candidatos e atribuir status de eleito
         List<Candidate> sortedCandidates = new ArrayList<>(candidates);
         sortedCandidates.sort(Comparator.comparingInt(Candidate::getVotesNumber).reversed());
 
@@ -182,11 +176,9 @@ public class Repository {
             }
         });
 
-        // Ordenar partidos
         List<PoliticalParty> sortedParties = new ArrayList<>(entourages);
         sortedParties.sort(Comparator.comparingInt(PoliticalParty::getPartyVotes).reversed());
 
-        // Criar objeto Apuracao
         Result result = new Result();
         result.setCandidates(sortedCandidates);
         result.setEntourages(sortedParties);
@@ -223,27 +215,24 @@ public class Repository {
     public void generateRandomVotes(int totalVotes) {
         Random random = new Random();
 
-        // Criar uma lista de números válidos para votos
         List<Integer> validVoteNumbers = new ArrayList<>();
 
-        // Adiciona os números dos partidos (2 dígitos)
         entourages.stream()
-                .filter(p -> p.getPartyNumber() != 99 && p.getPartyNumber() != 91) // Excluir brancos e nulos
+                .filter(p -> p.getPartyNumber() != 99 && p.getPartyNumber() != 91)
                 .map(PoliticalParty::getPartyNumber)
                 .forEach(validVoteNumbers::add);
 
-        // Adiciona os números dos candidatos (4 dígitos)
         candidates.stream()
                 .map(Candidate::getCandidateNumber)
                 .forEach(validVoteNumbers::add);
 
-        // Gera votos aleatórios
         for (int i = 0; i < totalVotes; i++) {
             int randomVote = validVoteNumbers.get(random.nextInt(validVoteNumbers.size()));
-            countVote(randomVote); // Método já implementado no repositório
+            countVote(randomVote);
+
+            System.out.println(totalVotes + " votos gerados aleatoriamente.");
         }
 
-        System.out.println(totalVotes + " votos gerados aleatoriamente.");
     }
 
 }
