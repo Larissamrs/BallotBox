@@ -1,46 +1,67 @@
-document.querySelector("#votacao").onclick = function(){
-    window.location.href = "index.html";
-}
-function resultado() {
-    let xhr = new XMLHttpRequest();
-    xhr.open("GET", `webresources/ballotbox/resultado/`, false);
-    xhr.send();
-    if (xhr.status < 400) {
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(xhr.responseText, "text/xml");
-        return xmlDoc;
-    }
-    return null;  
-}
-window.onload = function () {
-    const xmlDoc = resultado();
-    const candidatos = xmlDoc.getElementsByTagName("candidatos");
-    const partidos = xmlDoc.getElementsByTagName("partidos");
-    const bodyCandidatos = document.getElementById("bodyCandidatos");
-    const bodyPartidos = document.getElementById("bodyPartidos");
+document.addEventListener("DOMContentLoaded", () => {
+    fetchElectionResults();
+});
 
-    for (let i = 0; i < candidatos.length; i++) {
-        const candidato = candidatos[i];
-        const nome = candidato.getElementsByTagName("nome")[0].textContent;
-        const numero = candidato.getElementsByTagName("numero")[0].textContent;
-        const qtdVotos = candidato.getElementsByTagName("qtdvoto")[0].textContent;
-        const condicao = candidato.getElementsByTagName("condicao")[0].textContent;
+function fetchElectionResults() {
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", "prova/eleicao/result", true); 
+    xhr.setRequestHeader("Accept", "application/xml");
 
-        let linha = bodyCandidatos.insertRow();
-        linha.innerHTML = `<td>${nome}</td><td>${numero}</td><td>${qtdVotos}</td>`;
-        if (condicao === "eleito") {
-            linha.style.backgroundColor = "gray";
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            const xmlData = xhr.responseXML;
+            console.log(xmlData);
+            updateTables(xmlData);
+        } else {
+            console.error("Erro ao buscar resultados:", xhr.statusText);
         }
-    }
+    };
 
-    for (let j = 0; j < partidos.length; j++) {
-        const partido = partidos[j];
-        const nome = partido.getElementsByTagName("nome")[0].textContent;
-        const sigla = partido.getElementsByTagName("sigla")[0].textContent;
-        const numero = partido.getElementsByTagName("numero")[0].textContent;
-        const qtdVotos = partido.getElementsByTagName("qtdvoto")[0].textContent;
+    xhr.onerror = function () {
+        console.error("Erro na conexão com o servidor.");
+    };
 
-        let linha = bodyPartidos.insertRow();
-        linha.innerHTML = `<td>${nome}</td><td>${sigla}</td><td>${numero}</td><td>${qtdVotos}</td>`;
-    }
-};
+    xhr.send();
+}
+
+function updateTables(xmlData) {
+    const candidatesTableBody = document.querySelector("table:nth-of-type(1) tbody");
+    const partiesTableBody = document.querySelector("table:nth-of-type(2) tbody");
+
+    const candidates = xmlData.getElementsByTagName("candidates");
+    const parties = xmlData.getElementsByTagName("entourages");
+
+    // Atualizar tabela de candidatos
+    Array.from(candidates).forEach(candidate => {
+        const name = candidate.getElementsByTagName("candidateName")[0].textContent;
+        const number = candidate.getElementsByTagName("candidateNumber")[0].textContent;
+        const votes = candidate.getElementsByTagName("votesNumber")[0].textContent;
+        const isElected = candidate.getElementsByTagName("elected")[0].textContent === "true";
+
+        const row = document.createElement("tr");
+        row.style.backgroundColor = isElected ? "green" : "red";
+
+        row.innerHTML = `
+            <td>${name}</td>
+            <td>${number}</td>
+            <td>${votes}</td>
+        `;
+        candidatesTableBody.appendChild(row);
+    });
+
+    // Atualizar tabela de partidos
+    Array.from(parties).forEach(party => {
+        const name = party.getElementsByTagName("partyName")[0].textContent;
+        const number = party.getElementsByTagName("partyNumber")[0].textContent;
+        const votes = party.getElementsByTagName("partyVotes")[0].textContent;
+
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td>${name}</td>
+            <td>${number}</td>
+            <td>${votes}</td>
+        `;
+        partiesTableBody.appendChild(row);
+    });
+}

@@ -9,6 +9,8 @@ public class Result {
     private List<Candidate> candidates = new ArrayList<>();
     private List<PoliticalParty> entourages = new ArrayList<>();
 
+    public Result() {
+    }
 
     public Result(List<Candidate> candidates, List<PoliticalParty> entourages) {
     this.candidates = candidates;

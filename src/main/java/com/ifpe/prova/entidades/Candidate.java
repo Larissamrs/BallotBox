@@ -7,6 +7,15 @@ public class Candidate {
     private String candidateName;
     private int candidateNumber;
     private int votesNumber;
+    private boolean elected;
+
+    public boolean isElected() {
+        return elected;
+    }
+
+    public void setElected(boolean elected) {
+        this.elected = elected;
+    }
 
     public Candidate() {
         

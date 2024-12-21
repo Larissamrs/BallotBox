@@ -9,6 +9,7 @@ import java.util.Optional;
 import com.ifpe.prova.entidades.Candidate;
 import com.ifpe.prova.entidades.PoliticalParty;
 import com.ifpe.prova.entidades.Repository;
+import com.ifpe.prova.entidades.Result;
 
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.FormParam;
@@ -65,7 +66,14 @@ public class WebService {
                     .build();
         }
     }
-    
+
+    @GET
+    @Path("/result")
+    @Produces(MediaType.APPLICATION_XML)
+    public Response result(){
+        Result r = repositorio.computeElectionResults();
+        return Response.ok(r).build();
+    }
     public static class VotoRequest {
         private int voto;
 

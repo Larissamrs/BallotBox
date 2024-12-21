@@ -1,25 +1,32 @@
 package com.ifpe.prova.entidades;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 public class Repository {
     private List<Candidate> candidates = new ArrayList<>();
     private List<PoliticalParty> entourages = new ArrayList<>();
-   
+
     public Repository() {
         this.populateCandidates();
         this.populatePoliticalParties();
+        this.generateRandomVotes(50);
     }
+
     private void populatePoliticalParties() {
         String[][] parties = {
-            {"Progressistas", "11", "PP"},
-            {"Partido Democrático Trabalhista", "12", "PDT"},
-            {"Partido dos Trabalhadores", "13", "PT"},
-            {"Partido Trabalhista Brasileiro", "14", "PTB"},
-            {"Movimento Democrático Brasileiro", "15", "MDB"},
-            {"Branco", "99", "BRA"},
-            {"Nulos", "91", "NUL"}
+                { "Progressistas", "11", "PP" },
+                { "Partido Democrático Trabalhista", "12", "PDT" },
+                { "Partido dos Trabalhadores", "13", "PT" },
+                { "Partido Trabalhista Brasileiro", "14", "PTB" },
+                { "Movimento Democrático Brasileiro", "15", "MDB" },
+                { "Branco", "99", "BRA" },
+                { "Nulos", "91", "NUL" }
         };
 
         for (String[] partyData : parties) {
@@ -30,33 +37,34 @@ public class Repository {
             entourages.add(party);
         }
     }
+
     private void populateCandidates() {
         String[][] candidateData = {
-            {"Guilherme Gurgel", "1110"},
-            {"Haroldo Hommus", "1120"},
-            {"Ivan Istmo", "1130"},
-            {"Juliana Justos", "1140"},
-            {"Karol Konca", "1150"},
-            {"Luciana Lemos", "1210"},
-            {"Mário Mendes", "1220"},
-            {"Noemi Noruega", "1230"},
-            {"Otávio Orlando", "1240"},
-            {"Arnaldo Antunes", "1250"},
-            {"Bruno Barreto", "1310"},
-            {"Carla Camuratti", "1320"},
-            {"Daniel Dantas", "1330"},
-            {"Emanuella Esteves", "1340"},
-            {"Fábio Farias", "1350"},
-            {"Pedro Parente", "1410"},
-            {"Renata Rueda", "1420"},
-            {"Sandra Sá", "1430"},
-            {"Túlio Telhada", "1440"},
-            {"Ubaldo Uchôa", "1450"},
-            {"Vânia Valadares", "1510"},
-            {"Camila Cavalcanti", "1520"},
-            {"Maria Monteiro", "1530"},
-            {"Marcos Monteiro", "1540"},
-            {"Gustavo Gomes", "1550"}
+                { "Guilherme Gurgel", "1110" },
+                { "Haroldo Hommus", "1120" },
+                { "Ivan Istmo", "1130" },
+                { "Juliana Justos", "1140" },
+                { "Karol Konca", "1150" },
+                { "Luciana Lemos", "1210" },
+                { "Mário Mendes", "1220" },
+                { "Noemi Noruega", "1230" },
+                { "Otávio Orlando", "1240" },
+                { "Arnaldo Antunes", "1250" },
+                { "Bruno Barreto", "1310" },
+                { "Carla Camuratti", "1320" },
+                { "Daniel Dantas", "1330" },
+                { "Emanuella Esteves", "1340" },
+                { "Fábio Farias", "1350" },
+                { "Pedro Parente", "1410" },
+                { "Renata Rueda", "1420" },
+                { "Sandra Sá", "1430" },
+                { "Túlio Telhada", "1440" },
+                { "Ubaldo Uchôa", "1450" },
+                { "Vânia Valadares", "1510" },
+                { "Camila Cavalcanti", "1520" },
+                { "Maria Monteiro", "1530" },
+                { "Marcos Monteiro", "1540" },
+                { "Gustavo Gomes", "1550" }
         };
 
         for (String[] candidateInfo : candidateData) {
@@ -67,26 +75,29 @@ public class Repository {
             candidates.add(candidate);
         }
     }
+
     public Candidate findCandidateByNumber(int candidateNumber) {
         for (Candidate candidate : candidates) {
             if (candidate.getCandidateNumber() == candidateNumber) {
-                return candidate; 
+                return candidate;
             }
         }
-        return null; 
+        return null;
     }
+
     public PoliticalParty findPartyByNumber(int partyNumber) {
         for (PoliticalParty party : entourages) {
             if (party.getPartyNumber() == partyNumber) {
-                return party; 
+                return party;
             }
         }
-        return null; 
+        return null;
     }
+
     public void countVote(int voteNumber) {
         if (String.valueOf(voteNumber).length() == 2) {
             boolean partyFound = false;
-    
+
             for (PoliticalParty party : entourages) {
                 if (party.getPartyNumber() == voteNumber) {
                     party.setPartyVotes(party.getPartyVotes() + 1);
@@ -94,7 +105,7 @@ public class Repository {
                     break;
                 }
             }
-    
+
             if (!partyFound) {
                 for (PoliticalParty party : entourages) {
                     if (party.getPartyNumber() == 91) {
@@ -103,15 +114,14 @@ public class Repository {
                     }
                 }
             }
-        } 
-        else if (String.valueOf(voteNumber).length() == 4) {
+        } else if (String.valueOf(voteNumber).length() == 4) {
             boolean candidateFound = false;
-    
+
             for (Candidate candidate : candidates) {
                 if (candidate.getCandidateNumber() == voteNumber) {
                     candidate.setVotesNumber(candidate.getVotesNumber() + 1);
                     candidateFound = true;
-    
+
                     int partyNumber = Integer.parseInt(String.valueOf(voteNumber).substring(0, 2));
                     for (PoliticalParty party : entourages) {
                         if (party.getPartyNumber() == partyNumber) {
@@ -122,7 +132,7 @@ public class Repository {
                     break;
                 }
             }
-    
+
             if (!candidateFound) {
                 for (PoliticalParty party : entourages) {
                     if (party.getPartyNumber() == 91) {
@@ -131,10 +141,109 @@ public class Repository {
                     }
                 }
             }
-        } 
-        else {
+        } else {
             System.out.println("Número de voto inválido: " + voteNumber);
         }
     }
+
+    public Result computeElectionResults() {
+        int totalValidVotes = entourages.stream()
+                .filter(p -> p.getPartyNumber() != 99 && p.getPartyNumber() != 91) // Excluir votos brancos e nulos
+                .mapToInt(PoliticalParty::getPartyVotes)
+                .sum();
+
+        // Calcular quociente eleitoral
+        int electoralQuotient = (int) Math.ceil((double) totalValidVotes / 7);
+
+        // Calcular quociente partidário
+        Map<Integer, Integer> partySeats = entourages.stream()
+                .filter(p -> p.getPartyNumber() != 99 && p.getPartyNumber() != 91)
+                .collect(Collectors.toMap(
+                        PoliticalParty::getPartyNumber,
+                        p -> p.getPartyVotes() / electoralQuotient));
+
+        // Determinar cadeiras restantes
+        int distributedSeats = partySeats.values().stream().mapToInt(Integer::intValue).sum();
+        int remainingSeats = 7 - distributedSeats;
+
+        // Distribuir cadeiras restantes proporcionalmente
+        distributeRemainingSeats(remainingSeats, partySeats);
+
+        // Ordenar candidatos e atribuir status de eleito
+        List<Candidate> sortedCandidates = new ArrayList<>(candidates);
+        sortedCandidates.sort(Comparator.comparingInt(Candidate::getVotesNumber).reversed());
+
+        sortedCandidates.forEach(candidate -> {
+            int partyNumber = Integer.parseInt(String.valueOf(candidate.getCandidateNumber()).substring(0, 2));
+            int seats = partySeats.getOrDefault(partyNumber, 0);
+            if (seats > 0) {
+                candidate.setElected(true);
+                partySeats.put(partyNumber, seats - 1);
+            }
+        });
+
+        // Ordenar partidos
+        List<PoliticalParty> sortedParties = new ArrayList<>(entourages);
+        sortedParties.sort(Comparator.comparingInt(PoliticalParty::getPartyVotes).reversed());
+
+        // Criar objeto Apuracao
+        Result result = new Result();
+        result.setCandidates(sortedCandidates);
+        result.setEntourages(sortedParties);
+
+        return result;
+    }
+
+    private void distributeRemainingSeats(int remainingSeats, Map<Integer, Integer> partySeats) {
+        while (remainingSeats > 0) {
+            int maxParty = -1;
+            double maxValue = -1;
+
+            for (PoliticalParty party : entourages) {
+                int partyNumber = party.getPartyNumber();
+                if (partyNumber != 99 && partyNumber != 91) {
+                    int currentSeats = partySeats.getOrDefault(partyNumber, 0);
+                    double proportionalValue = party.getPartyVotes() / (double) (currentSeats + 1);
+                    if (proportionalValue > maxValue) {
+                        maxValue = proportionalValue;
+                        maxParty = partyNumber;
+                    }
+                }
+            }
+
+            if (maxParty != -1) {
+                partySeats.put(maxParty, partySeats.getOrDefault(maxParty, 0) + 1);
+                remainingSeats--;
+            } else {
+                break;
+            }
+        }
+    }
+
+    public void generateRandomVotes(int totalVotes) {
+        Random random = new Random();
+
+        // Criar uma lista de números válidos para votos
+        List<Integer> validVoteNumbers = new ArrayList<>();
+
+        // Adiciona os números dos partidos (2 dígitos)
+        entourages.stream()
+                .filter(p -> p.getPartyNumber() != 99 && p.getPartyNumber() != 91) // Excluir brancos e nulos
+                .map(PoliticalParty::getPartyNumber)
+                .forEach(validVoteNumbers::add);
+
+        // Adiciona os números dos candidatos (4 dígitos)
+        candidates.stream()
+                .map(Candidate::getCandidateNumber)
+                .forEach(validVoteNumbers::add);
+
+        // Gera votos aleatórios
+        for (int i = 0; i < totalVotes; i++) {
+            int randomVote = validVoteNumbers.get(random.nextInt(validVoteNumbers.size()));
+            countVote(randomVote); // Método já implementado no repositório
+        }
+
+        System.out.println(totalVotes + " votos gerados aleatoriamente.");
+    }
+
 }
-    
