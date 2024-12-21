@@ -30,6 +30,7 @@ public class Repository {
 
         for (String[] partyData : parties) {
             PoliticalParty party = new PoliticalParty();
+            party.setPartyAcronym(partyData[2]);
             party.setPartyName(partyData[0]);
             party.setPartyNumber(Integer.parseInt(partyData[1]));
             party.setPartyVotes(0);

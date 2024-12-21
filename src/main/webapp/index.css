@@ -1,59 +1,76 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Arial', sans-serif;
-    background: url('./image.png') no-repeat center center fixed;
-    background-size: cover;
+    font-family: 'Roboto', sans-serif; 
+    background: linear-gradient(to bottom, #001f3f, #0074D9); 
+    color: #fff; 
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    min-height: 100vh;
 }
 
 h1,
 h2 {
     text-align: center;
-    font-size: 2.5rem;
+    font-size: 3rem;
     font-weight: bold;
     margin-bottom: 20px;
     text-transform: uppercase;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    color: #fff; 
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8); 
 }
 
 form {
-    width: 300px;
-    margin: 0 auto;
+    width: 400px;
+    margin: 20px auto;
+    background: rgba(0, 0, 0, 0.7); 
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
 }
 
 input {
-    margin: 5px;
-    width: 85px;
+    margin: 10px;
+    width: 100px;
     height: 50px;
-    background-color: black;
-    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s, filter 0.3s; 
 }
 
 input:hover {
-    filter: brightness(1.2);
+    transform: scale(1.1); 
+    filter: brightness(1.2); 
 }
 
 input[value="Branco"] {
-    background-color: white;
-    color: black;
+    background-color: #f8f9fa;
+    color: #000;
 }
 
 input[value="Corrige"] {
-    background-color: orange;
-    color: white;
+    background-color: #f39c12; 
+    color: #fff;
 }
 
 input[value="Confirma"] {
-    background-color: green;
-    color: white;
+    background-color: #28a775; 
+    color: #fff;
 }
 
 span {
     display: inline-block;
-    border-bottom: 1px solid black;
-    width: 2em;
+    border-bottom: 2px solid #fff; 
+    width: 2.5em;
+    margin: 0 5px;
+    text-align: center;
+    font-size: 1.2rem;
 }
 
 input[disabled] {
@@ -63,5 +80,72 @@ input[disabled] {
 #name {
     text-align: center;
     font-weight: bold;
-    font-size: 120%;
+    font-size: 1.5rem;
+    color: #f1c40f; 
+    margin-top: 10px;
+}
+
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    border-radius: 10px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+caption {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #f1c40f;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+}
+
+thead {
+    background: rgba(0, 0, 0, 0.9);
+    color: #f1c40f;
+    font-size: 1.2rem;
+}
+
+th, td {
+    text-align: center;
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    font-size: 1.1rem;
+}
+
+tbody tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+tbody tr:nth-child(odd) {
+    background: rgba(0, 0, 0, 0.6); 
+}
+
+tbody tr:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #000;
+    font-weight: bold;
+}
+
+.table-dark {
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+}
+
+.table-dark th {
+    background: #001f3f;
+    color: #f1c40f;
+}
+
+.table-dark td {
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+}
+
+td{
+    color: #fff;
 }

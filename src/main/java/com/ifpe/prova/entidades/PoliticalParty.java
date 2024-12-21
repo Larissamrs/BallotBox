@@ -5,15 +5,24 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class PoliticalParty {
     private String partyName;
+    private String partyAcronym;
     private int partyNumber;
     private int partyVotes;
-   
+
+    public String getPartyAcronym() {
+        return partyAcronym;
+    }
+
+    public void setPartyAcronym(String partyAcronym) {
+        this.partyAcronym = partyAcronym;
+    }   
     
     public PoliticalParty() {
     }
 
-    public PoliticalParty(String partyName, int partyNumber, int partyVotes) {
+    public PoliticalParty(String partyName, String partyAcronym, int partyNumber, int partyVotes) {
         this.partyName = partyName;
+        this.partyAcronym = partyAcronym;
         this.partyNumber = partyNumber;
         this.partyVotes = partyVotes;
     }

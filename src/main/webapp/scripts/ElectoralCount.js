@@ -31,7 +31,6 @@ function updateTables(xmlData) {
     const candidates = xmlData.getElementsByTagName("candidates");
     const parties = xmlData.getElementsByTagName("entourages");
 
-    // Atualizar tabela de candidatos
     Array.from(candidates).forEach(candidate => {
         const name = candidate.getElementsByTagName("candidateName")[0].textContent;
         const number = candidate.getElementsByTagName("candidateNumber")[0].textContent;
@@ -39,7 +38,7 @@ function updateTables(xmlData) {
         const isElected = candidate.getElementsByTagName("elected")[0].textContent === "true";
 
         const row = document.createElement("tr");
-        row.style.backgroundColor = isElected ? "green" : "red";
+        row.style.backgroundColor = isElected ? "#075627" : "#B02A1D";
 
         row.innerHTML = `
             <td>${name}</td>
@@ -49,9 +48,9 @@ function updateTables(xmlData) {
         candidatesTableBody.appendChild(row);
     });
 
-    // Atualizar tabela de partidos
     Array.from(parties).forEach(party => {
         const name = party.getElementsByTagName("partyName")[0].textContent;
+        const acronym = party.getElementsByTagName("partyAcronym")[0].textContent;
         const number = party.getElementsByTagName("partyNumber")[0].textContent;
         const votes = party.getElementsByTagName("partyVotes")[0].textContent;
 
@@ -59,6 +58,7 @@ function updateTables(xmlData) {
 
         row.innerHTML = `
             <td>${name}</td>
+            <td>${acronym}</td>
             <td>${number}</td>
             <td>${votes}</td>
         `;
